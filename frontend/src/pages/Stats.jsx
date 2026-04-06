@@ -4,6 +4,20 @@ import {
 } from 'recharts';
 import client from '../api/client';
 
+async function downloadExport(format) {
+  const token = localStorage.getItem('token');
+  const res = await fetch(`/api/export/${format}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `habits_export.${format}`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 const PERIODS = [
   { key: 'week', label: 'Week', days: 7 },
   { key: 'month', label: 'Month', days: 30 },
@@ -62,19 +76,33 @@ export default function Stats() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Statistics</h1>
-        <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
-          {PERIODS.map((p) => (
-            <button
-              key={p.key}
-              onClick={() => setPeriod(p.key)}
-              className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                period === p.key ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              {p.label}
-            </button>
-          ))}
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Statistics</h1>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => downloadExport('csv')}
+            className="text-xs px-3 py-1.5 rounded-lg border dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+          >
+            ↓ CSV
+          </button>
+          <button
+            onClick={() => downloadExport('pdf')}
+            className="text-xs px-3 py-1.5 rounded-lg border dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+          >
+            ↓ PDF
+          </button>
+          <div className="flex gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+            {PERIODS.map((p) => (
+              <button
+                key={p.key}
+                onClick={() => setPeriod(p.key)}
+                className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                  period === p.key ? 'bg-white dark:bg-gray-800 text-indigo-600 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

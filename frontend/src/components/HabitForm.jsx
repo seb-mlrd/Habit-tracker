@@ -9,6 +9,8 @@ const CATEGORIES = [
   { value: 'other', label: '✨ Other' },
 ];
 
+const inputCls = 'w-full border dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-400';
+
 export default function HabitForm({ initial, onSubmit, onCancel }) {
   const [form, setForm] = useState({ name: '', description: '', frequency: 'daily', category: 'other' });
 
@@ -33,63 +35,35 @@ export default function HabitForm({ initial, onSubmit, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          required
-          className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-        />
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+        <input name="name" value={form.name} onChange={handleChange} required className={inputCls} />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-        <input
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-        />
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+        <input name="description" value={form.description} onChange={handleChange} className={inputCls} />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-          <select
-            name="category"
-            value={form.category}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          >
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+          <select name="category" value={form.category} onChange={handleChange} className={inputCls}>
             {CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>{c.label}</option>
             ))}
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Frequency</label>
-          <select
-            name="frequency"
-            value={form.frequency}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          >
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Frequency</label>
+          <select name="frequency" value={form.frequency} onChange={handleChange} className={inputCls}>
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
           </select>
         </div>
       </div>
       <div className="flex gap-2 pt-1">
-        <button
-          type="submit"
-          className="flex-1 bg-indigo-600 text-white py-2 rounded-lg text-sm hover:bg-indigo-700"
-        >
+        <button type="submit" className="flex-1 bg-indigo-600 text-white py-2 rounded-lg text-sm hover:bg-indigo-700">
           {initial ? 'Update' : 'Create'}
         </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="flex-1 border py-2 rounded-lg text-sm hover:bg-gray-50"
-        >
+        <button type="button" onClick={onCancel} className="flex-1 border dark:border-gray-600 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
           Cancel
         </button>
       </div>

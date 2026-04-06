@@ -21,7 +21,7 @@ export default function HabitCard({ habit, completedToday, onToggle, onEdit, onD
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-4">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 transition-colors">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button
@@ -29,7 +29,7 @@ export default function HabitCard({ habit, completedToday, onToggle, onEdit, onD
             className={`w-7 h-7 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
               completedToday
                 ? 'bg-indigo-600 border-indigo-600 text-white'
-                : 'border-gray-300 hover:border-indigo-400'
+                : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400'
             }`}
           >
             {completedToday && (
@@ -40,19 +40,17 @@ export default function HabitCard({ habit, completedToday, onToggle, onEdit, onD
           </button>
 
           <div>
-            <p className={`font-medium leading-tight ${completedToday ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+            <p className={`font-medium leading-tight ${completedToday ? 'line-through text-gray-400' : 'text-gray-800 dark:text-gray-100'}`}>
               {habit.name}
             </p>
-            {habit.description && <p className="text-sm text-gray-500">{habit.description}</p>}
+            {habit.description && <p className="text-sm text-gray-500 dark:text-gray-400">{habit.description}</p>}
             <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded capitalize">
+              <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 px-1.5 py-0.5 rounded capitalize">
                 {CATEGORY_ICONS[habit.category] ?? '✨'} {habit.category}
               </span>
               <span className="text-xs text-indigo-400 capitalize">{habit.frequency}</span>
               {habit.streak > 0 && (
-                <span className="text-xs font-medium text-orange-500">
-                  🔥 {habit.streak}d
-                </span>
+                <span className="text-xs font-medium text-orange-500">🔥 {habit.streak}d</span>
               )}
             </div>
           </div>
@@ -62,18 +60,14 @@ export default function HabitCard({ habit, completedToday, onToggle, onEdit, onD
           <button
             onClick={() => setShowCalendar((v) => !v)}
             className={`text-sm px-2 py-0.5 rounded transition-colors ${
-              showCalendar ? 'text-indigo-600 bg-indigo-50' : 'text-gray-400 hover:text-indigo-500'
+              showCalendar ? 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-400 hover:text-indigo-500'
             }`}
             title="Toggle calendar"
           >
             📅
           </button>
-          <button onClick={() => onEdit(habit)} className="text-sm text-gray-500 hover:text-indigo-600">
-            Edit
-          </button>
-          <button onClick={() => onDelete(habit.id)} className="text-sm text-gray-500 hover:text-red-500">
-            Delete
-          </button>
+          <button onClick={() => onEdit(habit)} className="text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600">Edit</button>
+          <button onClick={() => onDelete(habit.id)} className="text-sm text-gray-500 dark:text-gray-400 hover:text-red-500">Delete</button>
         </div>
       </div>
 

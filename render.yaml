@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: habit-tracker-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node src/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /opt/render/project/data/habits.db
+      - key: PORT
+        value: 3001
+      # Add SMTP_* vars manually in Render dashboard for email notifications
+    disk:
+      name: habit-data
+      mountPath: /opt/render/project/data
+      sizeGB: 1

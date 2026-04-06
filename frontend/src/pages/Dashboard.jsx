@@ -24,12 +24,9 @@ export default function Dashboard() {
       client.get('/completions'),
     ]);
     setHabits(habitsRes.data);
-    const todayIds = new Set(
-      completionsRes.data
-        .filter((c) => c.completed_on === today)
-        .map((c) => c.habit_id)
-    );
-    setCompletedIds(todayIds);
+    setCompletedIds(new Set(
+      completionsRes.data.filter((c) => c.completed_on === today).map((c) => c.habit_id)
+    ));
   }, [today]);
 
   useEffect(() => { load(); }, [load]);
@@ -52,16 +49,14 @@ export default function Dashboard() {
     load();
   }
 
-  const filtered = categoryFilter === 'all'
-    ? habits
-    : habits.filter((h) => h.category === categoryFilter);
+  const filtered = categoryFilter === 'all' ? habits : habits.filter((h) => h.category === categoryFilter);
 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Today</h1>
-          <p className="text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Today</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
         </div>
@@ -73,7 +68,6 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* Category filter */}
       <div className="flex gap-2 flex-wrap mb-5">
         {CATEGORIES.map((cat) => (
           <button
@@ -82,7 +76,7 @@ export default function Dashboard() {
             className={`text-xs px-3 py-1 rounded-full border capitalize transition-colors ${
               categoryFilter === cat
                 ? 'bg-indigo-600 text-white border-indigo-600'
-                : 'bg-white text-gray-500 border-gray-200 hover:border-indigo-300'
+                : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-indigo-300'
             }`}
           >
             {CATEGORY_ICONS[cat]} {cat}
@@ -91,8 +85,8 @@ export default function Dashboard() {
       </div>
 
       {(showForm || editing) && (
-        <div className="bg-white rounded-xl shadow p-5 mb-6">
-          <h2 className="font-semibold text-gray-700 mb-4">{editing ? 'Edit habit' : 'New habit'}</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-5 mb-6">
+          <h2 className="font-semibold text-gray-700 dark:text-gray-200 mb-4">{editing ? 'Edit habit' : 'New habit'}</h2>
           <HabitForm
             initial={editing}
             onSubmit={editing ? handleUpdate : handleCreate}
