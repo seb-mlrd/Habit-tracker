@@ -35,25 +35,25 @@ export default function HabitForm({ initial, onSubmit, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
-        <input name="name" value={form.name} onChange={handleChange} required className={inputCls} />
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="name">Name</label>
+        <input id="name" name="name" value={form.name} onChange={handleChange} required className={inputCls} />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
-        <input name="description" value={form.description} onChange={handleChange} className={inputCls} />
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="description">Description</label>
+        <input id="description" name="description" value={form.description} onChange={handleChange} className={inputCls} />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
-          <select name="category" value={form.category} onChange={handleChange} className={inputCls}>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="category">Category</label>
+          <select id="category" name="category" value={form.category} onChange={handleChange} className={inputCls}>
             {CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>{c.label}</option>
             ))}
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Frequency</label>
-          <select name="frequency" value={form.frequency} onChange={handleChange} className={inputCls}>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="frequency">Frequency</label>
+          <select id="frequency" name="frequency" value={form.frequency} onChange={handleChange} className={inputCls}>
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
           </select>
