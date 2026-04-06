@@ -1,0 +1,27 @@
+services:
+  backend:
+    build: ./backend
+    container_name: habit-backend
+    restart: unless-stopped
+    env_file: ./backend/.env
+    volumes:
+      - ./backend/data:/app/data
+    ports:
+      - "3001:3001"
+    networks:
+      - habit-net
+
+  frontend:
+    build: ./frontend
+    container_name: habit-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - habit-net
+
+networks:
+  habit-net:
+    driver: bridge
