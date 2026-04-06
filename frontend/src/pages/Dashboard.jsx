@@ -3,11 +3,18 @@ import client from '../api/client';
 import HabitCard from '../components/HabitCard';
 import HabitForm from '../components/HabitForm';
 
+const CATEGORIES = ['all', 'health', 'sport', 'productivity', 'learning', 'social', 'other'];
+const CATEGORY_ICONS = {
+  all: '🗂️', health: '❤️', sport: '🏃', productivity: '🧠',
+  learning: '📚', social: '🤝', other: '✨',
+};
+
 export default function Dashboard() {
   const [habits, setHabits] = useState([]);
   const [completedIds, setCompletedIds] = useState(new Set());
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [categoryFilter, setCategoryFilter] = useState('all');
 
   const today = new Date().toISOString().slice(0, 10);
 
@@ -45,12 +52,18 @@ export default function Dashboard() {
     load();
   }
 
+  const filtered = categoryFilter === 'all'
+    ? habits
+    : habits.filter((h) => h.category === categoryFilter);
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Today</h1>
-          <p className="text-sm text-gray-500">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
+          <p className="text-sm text-gray-500">
+            {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+          </p>
         </div>
         <button
           onClick={() => { setShowForm(true); setEditing(null); }}
@@ -58,6 +71,23 @@ export default function Dashboard() {
         >
           + New habit
         </button>
+      </div>
+
+      {/* Category filter */}
+      <div className="flex gap-2 flex-wrap mb-5">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setCategoryFilter(cat)}
+            className={`text-xs px-3 py-1 rounded-full border capitalize transition-colors ${
+              categoryFilter === cat
+                ? 'bg-indigo-600 text-white border-indigo-600'
+                : 'bg-white text-gray-500 border-gray-200 hover:border-indigo-300'
+            }`}
+          >
+            {CATEGORY_ICONS[cat]} {cat}
+          </button>
+        ))}
       </div>
 
       {(showForm || editing) && (
@@ -71,11 +101,13 @@ export default function Dashboard() {
         </div>
       )}
 
-      {habits.length === 0 ? (
-        <p className="text-gray-400 text-center py-16">No habits yet. Create your first one!</p>
+      {filtered.length === 0 ? (
+        <p className="text-gray-400 text-center py-16">
+          {habits.length === 0 ? 'No habits yet. Create your first one!' : 'No habits in this category.'}
+        </p>
       ) : (
         <div className="space-y-3">
-          {habits.map((habit) => (
+          {filtered.map((habit) => (
             <HabitCard
               key={habit.id}
               habit={habit}

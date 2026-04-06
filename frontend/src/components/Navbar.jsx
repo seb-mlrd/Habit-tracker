@@ -15,6 +15,7 @@ export default function Navbar() {
       <div className="flex gap-6 font-medium">
         <Link to="/" className="hover:text-indigo-200">Dashboard</Link>
         <Link to="/stats" className="hover:text-indigo-200">Stats</Link>
+        <Link to="/settings" className="hover:text-indigo-200">Settings</Link>
       </div>
       <div className="flex items-center gap-4 text-sm">
         <span className="opacity-75">{user?.email}</span>
